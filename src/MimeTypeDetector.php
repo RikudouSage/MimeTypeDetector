@@ -4,40 +4,31 @@ namespace Rikudou\MimeTypeDetector;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Rikudou\MimeTypeDetector\Config\ConfigNormalizer;
+use Rikudou\MimeTypeDetector\Config\ConfigNormalizerInterface;
 use SplFileInfo;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Yaml;
 use ZipArchive;
 
 final class MimeTypeDetector
 {
     private $config = [];
-    /**
-     * @var bool
-     */
-    private $advancedDetection;
-    /**
-     * @var array
-     */
-    private $disabledMimes;
 
     public function __construct(
         ?array $config = null,
-        bool $advancedDetection = true,
-        array $disabledMimes = []
+        ?ConfigNormalizerInterface $configNormalizer = null
     )
     {
+        if ($configNormalizer === null) {
+            $configNormalizer = new ConfigNormalizer();
+        }
         if ($config === null) {
-            $config = Yaml::parseFile(__DIR__ . '/../config/mime.yaml');
+            $config = $configNormalizer->normalizeFile(__DIR__ . '/../config/mime.yaml');
+        } else {
+            $config = $configNormalizer->normalizeArray($config);
         }
 
-        if (!isset($config['mime_types'])) {
-            throw new MimeTypeException("The config array must contain a 'mime_types' root key");
-        }
-
-        $this->config = $config['mime_types'];
-        $this->advancedDetection = $advancedDetection;
-        $this->disabledMimes = $disabledMimes;
+        $this->config = $config;
     }
 
     /**
@@ -61,44 +52,26 @@ final class MimeTypeDetector
         }
 
         foreach ($this->config as $mimeType => $configurations) {
-            if (in_array($mimeType, $this->disabledMimes, true)) {
-                continue;
-            }
-            if (isset($configurations['length']) || isset($configurations['parent'])) {
-                $configurations = [$configurations];
-            }
-
             foreach ($configurations as $configuration) {
-                if (!$this->advancedDetection && isset($configuration['archive']) && $configuration['archive']) {
-                    continue;
-                }
-                if (isset($configuration['parent'])) {
-                    $configuration = $this->mergeWithParent($configuration);
-                }
-                $offset = $configuration['offset'] ?? 0;
+                $offset = $configuration['offset'];
                 $length = $configuration['length'];
                 $byteSequences = $configuration['bytes'];
-                if (!is_array($byteSequences)) {
-                    $byteSequences = [$byteSequences];
-                }
 
-                if (isset($configuration['binary'])) {
-                    if (
-                        $configuration['binary'] !== $this->isBinary(
-                            $this->getBytes($file, 512, 0, true)
-                        )
-                    ) {
-                        continue;
-                    }
+                if (
+                    $configuration['binary'] !== null
+                    && $configuration['binary'] !== $this->isBinary(
+                        $this->getBytes($file, 512, 0, true)
+                    )
+                ) {
+                    continue;
                 }
 
                 foreach ($byteSequences as $byteSequence) {
-                    if (fnmatch(strtolower($byteSequence), $this->getBytes($file, $length, $offset))) {
+                    if (fnmatch($byteSequence, $this->getBytes($file, $length, $offset))) {
                         if (
-                            (!isset($configuration['archive']) || $configuration['archive'] === false)
+                            $configuration['archive'] === false
                             || (
-                                isset($configuration['archive'])
-                                && $configuration['archive'] === true
+                                $configuration['archive'] === true
                                 && $this->matchesFiles($configuration, $file)
                             )
                         ) {
@@ -168,46 +141,9 @@ final class MimeTypeDetector
         }
     }
 
-    private function mergeWithParent(array $configuration): array
-    {
-        $parent = $configuration['parent'];
-        if (!isset($this->config[$parent])) {
-            throw new MimeTypeException("Invalid parent: '{$parent}'");
-        }
-        $parent = $this->config[$parent];
-        if (!isset($configuration['length']) && isset($parent['length'])) {
-            $configuration['length'] = $parent['length'];
-        }
-        if (!isset($configuration['offset']) && isset($parent['offset'])) {
-            $configuration['offset'] = $parent['offset'];
-        }
-
-        $childBytes = $configuration['bytes'] ?? [];
-        if (!is_array($childBytes)) {
-            $childBytes = [$childBytes];
-        }
-
-        $parentBytes = $parent['bytes'] ?? [];
-        if (!is_array($parentBytes)) {
-            $parentBytes = [$parentBytes];
-        }
-
-        $configuration['bytes'] = array_merge($parentBytes, $childBytes);
-
-        return $configuration;
-    }
-
     private function matchesFiles(array $configuration, string $archiveFile): bool
     {
-        $files = $configuration['files'] ?? [];
-        $files = array_map(function ($item) {
-            if (is_string($item)) {
-                return [
-                    'name' => $item,
-                ];
-            }
-            return $item;
-        }, $files);
+        $files = $configuration['files'];
 
         if (!count($files)) {
             throw new MimeTypeException('The files array cannot be empty');
@@ -217,10 +153,7 @@ final class MimeTypeDetector
             $zip = new ZipArchive();
             if ($zip->open($archiveFile) === true) {
                 foreach ($files as $file) {
-                    if (
-                        (isset($file['dir']) && $file['dir'])
-                        || (isset($file['pattern']) && $file['pattern'])
-                    ) {
+                    if ($file['dir'] || $file['pattern']) {
                         $tmp = tempnam(sys_get_temp_dir(), 'php-mime');
                         unlink($tmp);
                         mkdir($tmp);
@@ -249,15 +182,15 @@ final class MimeTypeDetector
                         }
                     }
 
-                    if (isset($file['content'])) {
+                    if ($file['content'] !== null) {
                         if ($zip->getFromName($file['name']) !== $file['content']) {
                             return false;
                         }
                     }
 
-                    if (isset($file['binary']) && $file['binary']) {
+                    if ($file['binary'] !== null) {
                         $content = $zip->getFromName($file['name']);
-                        if (!$this->isBinary($content)) {
+                        if ($this->isBinary($content) !== $file['binary']) {
                             return false;
                         }
                     }
