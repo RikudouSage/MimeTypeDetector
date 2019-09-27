@@ -26,7 +26,7 @@
         "phpstan/phpstan": "^0.11.16"
     },
     "scripts": {
-        "fixer": "php-cs-fixer fix src",
+        "fixer": "php-cs-fixer fix src --allow-risky=yes --verbose",
         "phpstan": "phpstan analyse --level=max src"
     }
 }

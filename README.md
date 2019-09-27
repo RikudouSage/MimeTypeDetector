@@ -136,6 +136,19 @@ Android `apk` file
 (these are particularly resource extensive to find)
 - `application/vnd.google-earth.kmz` - Google Earth
 `kmz` files
+- `application/vnd.openxmlformats-officedocument.wordprocessingml.document` -
+Microsoft Word files
+- `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` -
+Microsoft Excel files
+- `application/vnd.oasis.opendocument.presentation` -
+OpenDocument presentation files
+- `application/vnd.oasis.opendocument.spreadsheet` -
+OpenDocument sheet files
+- `application/vnd.oasis.opendocument.text` -
+OpenDocument document files
+- `application/vnd.openxmlformats-officedocument.presentationml.presentation` -
+Microsoft PowerPoint files
+
 
 All of them will be reported as `application/zip`.
 
@@ -162,7 +175,6 @@ for all other zip-based files), you can turn them off
 using custom `ConfigNormalizer`:
 
 ```php
-```php
 <?php
 
 use Rikudou\MimeTypeDetector\Config\ConfigNormalizer;
@@ -180,3 +192,58 @@ $config = new ConfigNormalizer(false, [
 
 List of all types and their detections is in
 [mime.yaml](config/mime.yaml).
+
+### Create config using config builder
+
+The config builder is there to help you create config
+for mime types and turn on and off detection for
+groups of types:
+
+```php
+<?php
+
+use Rikudou\MimeTypeDetector\Config\ConfigBuilder;
+
+$config = ConfigBuilder::create()
+    ->withoutZipBased()
+    ->withOffice()
+    ->withoutExtensive()
+    ->withImages()
+    ->withAudio()
+    ->withVideo()
+    ->withArchives()
+    ->withOther()
+    ->build();
+
+```
+
+By default when you call just `ConfigBuilder::create()`
+everything is enabled so you don't need to call e.g.
+`withImages()` like in the example above. But if you
+want to disable image detection, you can use 
+`withoutImages()` - every `with` method has a `without`
+counterpart.
+
+There is also a static method `createSaneDefaults()`
+which can be used.
+
+```php
+<?php
+
+use Rikudou\MimeTypeDetector\Config\ConfigBuilder;
+
+$config1 = ConfigBuilder::createSaneDefaults()
+    ->build();
+
+$config2 = ConfigBuilder::create()
+    ->withoutZipBased()
+    ->withOffice()
+    ->withoutExtensive()
+    ->with([
+        'application/vnd.android.package-archive',
+        'application/java-archive',
+        'application/epub+zip',
+    ]);
+```
+
+The two configs above mean the same thing.

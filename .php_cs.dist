@@ -1,5 +1,25 @@
 <?php
 
+use PhpCsFixer\Fixer\DoctrineAnnotation\DoctrineAnnotationBracesFixer;
+
+$options = (new DoctrineAnnotationBracesFixer())
+    ->getConfigurationDefinition()
+    ->getOptions();
+
+$ignoredTags = null;
+foreach ($options as $option) {
+    if($option->getName() === 'ignored_tags') {
+        $ignoredTags = $option->getDefault();
+        break;
+    }
+}
+
+if ($ignoredTags === null) {
+    throw new RuntimeException('Could not get list of default rules');
+}
+
+$ignoredTags[] = 'Annotation';
+
 return PhpCsFixer\Config::create()
     ->setRules([
         '@PSR2' => true,
@@ -15,8 +35,19 @@ return PhpCsFixer\Config::create()
         'concat_space' => [
             'spacing' => 'one',
         ],
+        'doctrine_annotation_braces' => [
+            'syntax' => 'with_braces',
+            'ignored_tags' => $ignoredTags,
+        ],
+        'doctrine_annotation_spaces' => [
+            'ignored_tags' => $ignoredTags,
+        ],
+        'doctrine_annotation_indentation' => [
+            'ignored_tags' => $ignoredTags
+        ],
         'explicit_indirect_variable' => true,
         'explicit_string_variable' => true,
+        'final_class' => true,
         'fully_qualified_strict_types' => true,
         'function_typehint_space' => true,
         'include' => true,
@@ -55,6 +86,7 @@ return PhpCsFixer\Config::create()
         'no_mixed_echo_print' => true,
         'no_spaces_around_offset' => true,
         'no_trailing_comma_in_singleline_array' => true,
+        'no_unneeded_final_method' => true,
         'no_unused_imports' => true,
         'no_whitespace_before_comma_in_array' => true,
         'no_whitespace_in_blank_line' => true,
