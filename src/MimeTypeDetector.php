@@ -12,13 +12,15 @@ use ZipArchive;
 
 final class MimeTypeDetector
 {
+    /**
+     * @var array
+     */
     private $config = [];
 
     public function __construct(
         ?array $config = null,
         ?ConfigNormalizerInterface $configNormalizer = null
-    )
-    {
+    ) {
         if ($configNormalizer === null) {
             $configNormalizer = new ConfigNormalizer();
         }
@@ -32,7 +34,8 @@ final class MimeTypeDetector
     }
 
     /**
-     * @param string|SplFileInfo $file
+     * @param string|object|SplFileInfo $file
+     *
      * @return string
      */
     public function getMimeType($file): string
@@ -40,11 +43,11 @@ final class MimeTypeDetector
         if ($file instanceof SplFileInfo) {
             $file = $file->getPathname();
         } elseif (is_object($file) && method_exists($file, '__toString')) {
-            $file = (string)$file;
+            $file = (string) $file;
         }
 
         if (!is_string($file)) {
-            throw new MimeTypeException("The file must be a string, instance of SplFileInfo or object implementing __toString() method");
+            throw new MimeTypeException('The file must be a string, instance of SplFileInfo or object implementing __toString() method');
         }
 
         if (!is_file($file)) {
@@ -91,9 +94,10 @@ final class MimeTypeDetector
 
     /**
      * @param string $filePath
-     * @param int $length
-     * @param int $offset
-     * @param bool $raw
+     * @param int    $length
+     * @param int    $offset
+     * @param bool   $raw
+     *
      * @return string
      */
     private function getBytes(
@@ -101,8 +105,7 @@ final class MimeTypeDetector
         int $length,
         int $offset = 0,
         bool $raw = false
-    ): string
-    {
+    ): string {
         try {
             if ($offset < 0) {
                 throw new MimeTypeException("The offset cannot be less than zero, {$offset} given");
@@ -129,9 +132,6 @@ final class MimeTypeDetector
             }
 
             $hex = bin2hex($rawBytes);
-            if ($hex === false) {
-                throw new MimeTypeException("Could not convert the raw bytes to hexadecimal");
-            }
 
             return $hex;
         } finally {
@@ -155,6 +155,9 @@ final class MimeTypeDetector
                 foreach ($files as $file) {
                     if ($file['dir'] || $file['pattern']) {
                         $tmp = tempnam(sys_get_temp_dir(), 'php-mime');
+                        if (!is_string($tmp)) {
+                            throw new MimeTypeException('Could not create temporary directory to extract archive');
+                        }
                         unlink($tmp);
                         mkdir($tmp);
                         $zip->extractTo($tmp);
@@ -190,6 +193,9 @@ final class MimeTypeDetector
 
                     if ($file['binary'] !== null) {
                         $content = $zip->getFromName($file['name']);
+                        if ($content === false) {
+                            throw new MimeTypeException("Could not read the content of file '{$file['name']}' from archive");
+                        }
                         if ($this->isBinary($content) !== $file['binary']) {
                             return false;
                         }
@@ -199,9 +205,7 @@ final class MimeTypeDetector
                 return true;
             }
         } finally {
-            if (isset($zip)) {
-                $zip->close();
-            }
+            $zip->close();
         }
 
         return false;
@@ -210,7 +214,8 @@ final class MimeTypeDetector
     private function isBinary(string $content): bool
     {
         $content = substr($content, 0, 512);
-        return substr_count($content, "^ -~") / 512 > 0.3
+
+        return substr_count($content, '^ -~') / 512 > 0.3
             || substr_count($content, "\x00") > 0;
     }
 }

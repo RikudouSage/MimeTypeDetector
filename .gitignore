@@ -2,3 +2,6 @@
 /composer.lock
 /vendor
 /samples
+/.php_cs.cache
+/phpstan.neon
+/test.php

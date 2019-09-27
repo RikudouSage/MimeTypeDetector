@@ -1,0 +1,6 @@
+parameters:
+    ignoreErrors:
+        -
+            message: '#Strict comparison using === between int and false will always evaluate to false#'
+            path: src/MimeTypeDetector
+    inferPrivatePropertyTypeFromConstructor: true

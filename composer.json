@@ -20,5 +20,13 @@
         "psr-4": {
             "Rikudou\\MimeTypeDetector\\": "src/"
         }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "phpstan/phpstan": "^0.11.16"
+    },
+    "scripts": {
+        "fixer": "php-cs-fixer fix src",
+        "phpstan": "phpstan analyse --level=max src"
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Rikudou\MimeTypeDetector\Config;
 
 use Rikudou\MimeTypeDetector\MimeTypeException;
@@ -12,6 +11,7 @@ final class ConfigNormalizer
      * @var array
      */
     private $disabledMimeTypes;
+
     /**
      * @var bool
      */
@@ -97,7 +97,7 @@ final class ConfigNormalizer
                     foreach ($files as $fileIndex => $file) {
                         if (!is_array($file)) {
                             $file = [
-                                'name' => $file
+                                'name' => $file,
                             ];
                         }
                         if (!isset($file['dir'])) {
