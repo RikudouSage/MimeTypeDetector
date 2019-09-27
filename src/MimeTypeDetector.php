@@ -20,7 +20,8 @@ final class MimeTypeDetector
     public function __construct(
         ?array $config = null,
         ?ConfigNormalizerInterface $configNormalizer = null
-    ) {
+    )
+    {
         if ($configNormalizer === null) {
             $configNormalizer = new ConfigNormalizer();
         }
@@ -43,7 +44,7 @@ final class MimeTypeDetector
         if ($file instanceof SplFileInfo) {
             $file = $file->getPathname();
         } elseif (is_object($file) && method_exists($file, '__toString')) {
-            $file = (string) $file;
+            $file = (string)$file;
         }
 
         if (!is_string($file)) {
@@ -94,9 +95,9 @@ final class MimeTypeDetector
 
     /**
      * @param string $filePath
-     * @param int    $length
-     * @param int    $offset
-     * @param bool   $raw
+     * @param int $length
+     * @param int $offset
+     * @param bool $raw
      *
      * @return string
      */
@@ -105,7 +106,8 @@ final class MimeTypeDetector
         int $length,
         int $offset = 0,
         bool $raw = false
-    ): string {
+    ): string
+    {
         try {
             if ($offset < 0) {
                 throw new MimeTypeException("The offset cannot be less than zero, {$offset} given");
@@ -147,6 +149,10 @@ final class MimeTypeDetector
 
         if (!count($files)) {
             throw new MimeTypeException('The files array cannot be empty');
+        }
+
+        if (!class_exists('ZipArchive')) {
+            throw new MimeTypeException('The zip extension is not enabled, cannot check zip based files');
         }
 
         try {

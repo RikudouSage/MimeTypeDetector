@@ -19,6 +19,9 @@ final class ConfigNormalizer implements ConfigNormalizerInterface
 
     public function __construct(bool $advancedDetection = true, array $disabledMimeTypes = [])
     {
+        if (!class_exists('ZipArchive')) {
+            $advancedDetection = false;
+        }
         $this->advancedDetection = $advancedDetection;
         $this->disabledMimeTypes = $disabledMimeTypes;
     }

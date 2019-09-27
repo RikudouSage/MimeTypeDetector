@@ -13,8 +13,10 @@
     "require": {
         "symfony/yaml": "^4",
         "php": "^7.2",
-        "ext-zip": "*",
         "symfony/filesystem": "^4"
+    },
+    "suggest": {
+        "ext-zip": "Allows detecting of zip based types like apk, jar and others"
     },
     "autoload": {
         "psr-4": {
