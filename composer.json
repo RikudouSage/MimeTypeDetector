@@ -1,0 +1,24 @@
+{
+    "name": "rikudou/mime-type-detector",
+    "description": "Detects mime types using magic bytes / magic numbers",
+    "type": "library",
+    "license": "WTFPL",
+    "authors": [
+        {
+            "name": "Dominik Chrástecký",
+            "email": "dominik@chrastecky.cz"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/yaml": "^4",
+        "php": "^7.2",
+        "ext-zip": "*",
+        "symfony/filesystem": "^4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rikudou\\MimeTypeDetector\\": "src/"
+        }
+    }
+}

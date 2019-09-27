@@ -1,0 +1,323 @@
+mime_types:
+
+  # Images
+
+  image/jpeg:
+    - length: 4
+      bytes:
+        - FFD8FFDB
+        - FFD8FFEE
+    - length: 12
+      bytes:
+        - FFD8FFE000104A4649460001
+        - FFD8FFE1????457869660000
+
+  image/x-icon:
+    length: 4
+    bytes: '00000100'
+
+  image/gif:
+    length: 6
+    bytes:
+      - '474946383761'
+      - '474946383961'
+
+  image/x-canon-cr2:
+    length: 10
+    bytes: 49492A00100000004352
+
+  image/tiff:
+    length: 4
+    bytes:
+      - 49492A00
+      - 4D4D002A
+
+  image/png:
+    length: 8
+    bytes: 89504E470D0A1A0A
+
+  image/x-dpx:
+    length: 4
+    bytes:
+      - '53445058'
+      - '58504453'
+
+  image/x-exr:
+    length: 4
+    bytes: 762F3101
+
+  image/x-bpg:
+    length: 4
+    bytes: 425047FB
+
+  image/vnd.adobe.photoshop:
+    length: 4
+    bytes: '38425053'
+
+  image/bmp:
+    length: 2
+    bytes: 424D
+
+  image/fits:
+    - length: 8
+      bytes: 53494D504C452020
+    - length: 22
+      bytes: 3D202020202020202020202020202020202020202054
+
+  # Audio
+
+  audio/8svx:
+    length: 12
+    bytes: 464F524D????????38535658
+
+  audio/aiff:
+    length: 12
+    bytes: 464F524D????????41494646
+
+  audio/wav:
+    length: 12
+    bytes: 52494646????????57415645
+
+  audio/mpeg:
+    - length: 2
+      bytes: FFFB
+    - length: 3
+      bytes: '494433'
+
+  audio/flac:
+    length: 4
+    bytes: 664C6143
+
+  audio/midi:
+    length: 4
+    bytes: 4D546864
+
+  # Video
+
+  video/3gpp:
+    length: 6
+    offset: 4
+    bytes: '667479703367'
+
+  video/x-ms-asf:
+    length: 16
+    bytes: 3026B2758E66CF11A6D900AA0062CE6C
+
+  video/avi:
+    length: 12
+    bytes: 52494646????????41564920
+
+  video/x-matroska:
+    length: 4
+    bytes: 1A45DFA3
+
+  application/ogg:
+    length: 4
+    bytes: 4F676753
+
+  # Office etc.
+
+  application/pdf:
+    length: 5
+    bytes: 255044462D
+
+  application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+    archive: true
+    parent: application/zip
+    files:
+      - '[Content_Types].xml'
+      - word/styles.xml
+
+  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+    archive: true
+    parent: application/zip
+    files:
+      - '[Content_Types].xml'
+      - xl/styles.xml
+
+  application/vnd.oasis.opendocument.presentation:
+    archive: true
+    parent: application/zip
+    files:
+      - name: mimetype
+        content: application/vnd.oasis.opendocument.presentation
+
+  application/vnd.oasis.opendocument.spreadsheet:
+    archive: true
+    parent: application/zip
+    files:
+      - name: mimetype
+        content: application/vnd.oasis.opendocument.spreadsheet
+
+  application/vnd.oasis.opendocument.text:
+    archive: true
+    parent: application/zip
+    files:
+      - name: mimetype
+        content: application/vnd.oasis.opendocument.text
+
+  application/vnd.openxmlformats-officedocument.presentationml.presentation:
+    archive: true
+    parent: application/zip
+    files:
+      - '[Content_Types].xml'
+      - ppt/presentation.xml
+
+  # Archives
+
+  application/x-compress:
+    length: 2
+    bytes:
+      - 1F9D
+      - 1FA0
+
+  application/x-bzip2:
+    length: 3
+    bytes: 425A68
+
+  application/vnd.rar:
+    - length: 7
+      bytes: 526172211A0700
+    - length: 8
+      bytes: 526172211A070100
+
+  application/x-lzip:
+    length: 4
+    bytes: 4C5A4950
+
+  application/x-xar:
+    length: 4
+    bytes: '78617221'
+
+  application/x-tar:
+    length: 8
+    offset: 257
+    bytes:
+      - '7573746172003030'
+      - '7573746172202000'
+
+  application/x-gzip:
+    length: 2
+    bytes: 1F8B
+
+  application/x-xz:
+    length: 7
+    bytes: FD377A585A0000
+
+  application/x-7z-compressed:
+    length: 6
+    bytes: 377ABCAF271C
+
+  # Others
+
+  application/x-iso9660-image:
+    - length: 5
+      bytes: '4344303031'
+      offset: 32769
+    - length: 5
+      bytes: '4344303031'
+      offset: 34817
+    - length: 5
+      bytes: '4344303031'
+      offset: 36865
+
+  application/vnd.tcpdump.pcap:
+    length: 4
+    bytes:
+      - A1B2C3D4
+      - D4C3B2A1
+
+  application/x-pcapng:
+    length: 4
+    bytes: 0A0D0D0A
+
+  application/x-rpm:
+    length: 4
+    bytes: EDABEEDB
+
+  application/x-sqlite3:
+    length: 16
+    bytes: 53514C69746520666F726D6174203300
+
+  application/vnd.palm:
+    offset: 11
+    length: 24
+    bytes: '000000000000000000000000000000000000000000000000'
+
+  application/java-vm:
+    length: 4
+    bytes: CAFEBABE
+
+  application/postscript:
+    length: 4
+    bytes: '25215053'
+
+  application/vnd.microsoft.portable-executable:
+    length: 2
+    bytes: 4D5A
+
+  application/x-apple-diskimage:
+    - length: 7
+      bytes:
+        - 7801730D626260
+    - length: 4
+      bytes:
+        - 6B6F6C79
+        - '73707273'
+
+  application/x-nes-rom:
+    length: 4
+    bytes: 4E45531A
+
+  application/vnd.ms-cab-compressed:
+    length: 4
+    bytes: 4D534346
+
+  # ZIP based formats
+
+  application/vnd.android.package-archive:
+    archive: true
+    parent: application/zip
+    files:
+      - name: AndroidManifest.xml
+        binary: true
+
+  application/java-archive:
+    archive: true
+    parent: application/zip
+    files:
+      - META-INF/MANIFEST.MF
+
+
+  application/x-xpinstall:
+    archive: true
+    parent: application/zip
+    files:
+      - manifest.json
+
+  application/epub+zip:
+    archive: true
+    parent: application/zip
+    files:
+      - META-INF/container.xml
+
+  application/x-itunes-ipa:
+    archive: true
+    parent: application/zip
+    files:
+      - name: Payload/*.app/*
+        dir: true
+        pattern: true
+
+  application/vnd.google-earth.kmz:
+    archive: true
+    parent: application/zip
+    files:
+      - doc.kml
+
+  application/zip:
+    length: 4
+    bytes:
+      - 504B0304
+      - 504B0506
+      - 504B0708
