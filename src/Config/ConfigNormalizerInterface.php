@@ -21,30 +21,33 @@ interface ConfigNormalizerInterface
      * The parameter 'binary' accepts either null or a boolean.
      * The parameter 'content' accepts either null or a string.
      *
+     * The required format:
+     * [
+     *      'mimeType' => [
+     *          0 => [
+     *              'length' => 1,
+     *              'offset' => 0,
+     *              'binary' => null,
+     *              'archive' => false,
+     *              'files' => [
+     *                  0 => [
+     *                      'name' => 'path/to/file/in/archive'
+     *                      'dir' => false,
+     *                      'pattern' => false,
+     *                      'binary' => null,
+     *                      'content' => null
+     *                  ]
+     *              ],
+     *              'bytes' => [
+     *                  0 => 'ff',
+     *              ]
+     *          ]
+     *      ]
+     * ]
+     *
      * @param array $config
      *
-     * @return array [
-     *               'mimeType' => [
-     *               0 => [
-     *               'length' => 1,
-     *               'offset' => 0,
-     *               'binary' => null,
-     *               'archive' => false,
-     *               'files' => [
-     *               0 => [
-     *               'name' => 'path/to/file/in/archive'
-     *               'dir' => false,
-     *               'pattern' => false,
-     *               'binary' => null,
-     *               'content' => null
-     *               ]
-     *               ],
-     *               'bytes' => [
-     *               0 => 'ff',
-     *               ]
-     *               ]
-     *               ]
-     *               ]
+     * @return array
      */
     public function normalizeArray(array $config): array;
 }
