@@ -64,6 +64,15 @@ mime_types:
     - length: 22
       bytes: 3D202020202020202020202020202020202020202054
 
+  image/heic:
+    length: 8
+    offset: 4
+    bytes:
+      - 667479706D696631
+      - 6674797068656963
+      - 6674797068656978
+      - 6674797068657663
+
   # Audio
 
   audio/8svx:
@@ -162,6 +171,10 @@ mime_types:
     files:
       - '[Content_Types].xml'
       - ppt/presentation.xml
+
+  text/rtf:
+    length: 6
+    bytes: 7B5C72746631
 
   # Archives
 
