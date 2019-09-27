@@ -207,7 +207,7 @@ use Rikudou\MimeTypeDetector\Config\ConfigBuilder;
 $config = ConfigBuilder::create()
     ->withoutZipBased()
     ->withOffice()
-    ->withoutExtensive()
+    ->withoutExpensive()
     ->withImages()
     ->withAudio()
     ->withVideo()
@@ -238,7 +238,7 @@ $config1 = ConfigBuilder::createSaneDefaults()
 $config2 = ConfigBuilder::create()
     ->withoutZipBased()
     ->withOffice()
-    ->withoutExtensive()
+    ->withoutExpensive()
     ->with([
         'application/vnd.android.package-archive',
         'application/java-archive',

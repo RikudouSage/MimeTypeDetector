@@ -102,7 +102,7 @@ final class ConfigBuilder
         'application/vnd.google-earth.kmz',
     ];
 
-    private const EXTENSIVE = [
+    private const EXPENSIVE = [
         'application/x-itunes-ipa',
     ];
 
@@ -124,7 +124,7 @@ final class ConfigBuilder
         return self::create()
             ->withoutZipBased()
             ->withOffice()
-            ->withoutExtensive()
+            ->withoutExpensive()
             ->with([
                 'application/vnd.android.package-archive',
                 'application/java-archive',
@@ -202,14 +202,14 @@ final class ConfigBuilder
         return $this->without(self::ZIP_BASED);
     }
 
-    public function withExtensive(): self
+    public function withExpensive(): self
     {
-        return $this->with(self::EXTENSIVE);
+        return $this->with(self::EXPENSIVE);
     }
 
-    public function withoutExtensive(): self
+    public function withoutExpensive(): self
     {
-        return $this->without(self::EXTENSIVE);
+        return $this->without(self::EXPENSIVE);
     }
 
     public function with(array $types): self
