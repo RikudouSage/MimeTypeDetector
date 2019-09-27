@@ -16,10 +16,15 @@ final class MimeTypeDetector
      * @var bool
      */
     private $advancedDetection;
+    /**
+     * @var array
+     */
+    private $disabledMimes;
 
     public function __construct(
         ?array $config = null,
-        bool $advancedDetection = true
+        bool $advancedDetection = true,
+        array $disabledMimes = []
     )
     {
         if ($config === null) {
@@ -32,6 +37,7 @@ final class MimeTypeDetector
 
         $this->config = $config['mime_types'];
         $this->advancedDetection = $advancedDetection;
+        $this->disabledMimes = $disabledMimes;
     }
 
     /**
@@ -55,6 +61,9 @@ final class MimeTypeDetector
         }
 
         foreach ($this->config as $mimeType => $configurations) {
+            if (in_array($mimeType, $this->disabledMimes, true)) {
+                continue;
+            }
             if (isset($configurations['length']) || isset($configurations['parent'])) {
                 $configurations = [$configurations];
             }
