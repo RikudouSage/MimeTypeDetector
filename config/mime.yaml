@@ -77,6 +77,10 @@ mime_types:
     length: 15
     bytes: 41542654464F524D????????444A56
 
+  image/webp:
+    length: 12
+    bytes: 52494646????????57454250
+
   # Audio
 
   audio/8svx:
@@ -123,6 +127,15 @@ mime_types:
   video/x-matroska:
     length: 4
     bytes: 1A45DFA3
+
+  video/mpeg:
+    - length: 4
+      bytes:
+        - 000001B3
+        - 000001BA
+    - length: 1
+      bytes: '47'
+      offset: 188
 
   application/ogg:
     length: 4
@@ -225,6 +238,13 @@ mime_types:
     length: 6
     bytes: 377ABCAF271C
 
+  application/zlib:
+    length: 2
+    bytes:
+      - '7801'
+      - 789C
+      - 78DA
+
   # Others
 
   application/x-iso9660-image:
@@ -293,6 +313,36 @@ mime_types:
   application/x-x509-user-cert:
     length: 2
     bytes: '3082'
+
+  application/dicom:
+    offset: 128
+    length: 4
+    bytes: 4449434D
+
+  application/font-woff:
+    length: 4
+    bytes:
+      - 774F4646
+      - 774F4632
+
+  text/xml:
+    length: 6
+    bytes: 3C3F786D6C20
+    binary: false
+
+  application/wasm:
+    length: 4
+    bytes: 0061736D
+
+  application/vnd.adobe.flash-movie:
+    length: 3
+    bytes:
+      - '435753'
+      - '465753'
+
+  application/vnd.debian.binary-package:
+    length: 7
+    bytes: 213C617263683E
 
   # ZIP based formats
 

@@ -82,6 +82,16 @@ final class MimeTypeDetector
                     $byteSequences = [$byteSequences];
                 }
 
+                if (isset($configuration['binary'])) {
+                    if (
+                        $configuration['binary'] !== $this->isBinary(
+                            $this->getBytes($file, 512, 0, true)
+                        )
+                    ) {
+                        continue;
+                    }
+                }
+
                 foreach ($byteSequences as $byteSequence) {
                     if (fnmatch(strtolower($byteSequence), $this->getBytes($file, $length, $offset))) {
                         if (
