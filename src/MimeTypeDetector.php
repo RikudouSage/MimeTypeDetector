@@ -18,8 +18,8 @@ final class MimeTypeDetector
     private $config = [];
 
     public function __construct(
-        ?array $config = null,
-        ?ConfigNormalizerInterface $configNormalizer = null
+        ?ConfigNormalizerInterface $configNormalizer = null,
+        ?array $config = null
     )
     {
         if ($configNormalizer === null) {

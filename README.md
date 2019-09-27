@@ -35,7 +35,7 @@ looking into archives (see below in advanced usage).
 ### Custom definitions
 
 You can supply custom mime type definitions as the
-first argument:
+second argument:
 
 ```php
 <?php
@@ -44,7 +44,7 @@ use Rikudou\MimeTypeDetector\MimeTypeDetector;
 
 /** @var array $myDefinitions */
 
-$detector = new MimeTypeDetector($myDefinitions);
+$detector = new MimeTypeDetector(null, $myDefinitions);
 ```
 
 The definitions format is described in 
@@ -162,7 +162,7 @@ use Rikudou\MimeTypeDetector\Config\ConfigNormalizer;
 use Rikudou\MimeTypeDetector\MimeTypeDetector;
 
 $config = new ConfigNormalizer(false);
-$detector = new MimeTypeDetector(null, $config);
+$detector = new MimeTypeDetector($config);
 
 ```
 
@@ -183,7 +183,7 @@ use Rikudou\MimeTypeDetector\MimeTypeDetector;
 $config = new ConfigNormalizer(true, [
     'application/x-itunes-ipa'
 ]); // this will check all types but ipa files
-$detector = new MimeTypeDetector(null, $config);
+$detector = new MimeTypeDetector($config);
 
 $config = new ConfigNormalizer(false, [
     'image/jpeg'
