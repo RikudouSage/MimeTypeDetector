@@ -5,7 +5,7 @@ namespace Rikudou\MimeTypeDetector\Config;
 use Rikudou\MimeTypeDetector\MimeTypeException;
 use Symfony\Component\Yaml\Yaml;
 
-final class ConfigNormalizer
+final class ConfigNormalizer implements ConfigNormalizerInterface
 {
     /**
      * @var array
@@ -56,6 +56,8 @@ final class ConfigNormalizer
                 if (isset($configuration['parent'])) {
                     $configuration = $this->mergeWithParent($configuration, $config);
                     $result[$mimeType][$index] = $configuration;
+                } else {
+                    $result[$mimeType][$index]['parent'] = null;
                 }
 
                 if (!isset($configuration['offset'])) {

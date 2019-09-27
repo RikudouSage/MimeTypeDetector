@@ -29,6 +29,7 @@ interface ConfigNormalizerInterface
      *              'offset' => 0,
      *              'binary' => null,
      *              'archive' => false,
+     *              'parent' => null,
      *              'files' => [
      *                  0 => [
      *                      'name' => 'path/to/file/in/archive'
