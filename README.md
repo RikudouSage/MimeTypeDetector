@@ -133,7 +133,7 @@ Android `apk` file
 - `application/x-xpinstall` - Mozilla `xpi` files
 - `application/epub+zip` - `epub` books
 - `application/x-itunes-ipa` - iOS `ipa` files
-(these are particularly resource extensive to find)
+(these are particularly resource expensive to detect)
 - `application/vnd.google-earth.kmz` - Google Earth
 `kmz` files
 - `application/vnd.openxmlformats-officedocument.wordprocessingml.document` -
