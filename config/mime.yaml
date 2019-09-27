@@ -73,6 +73,10 @@ mime_types:
       - 6674797068656978
       - 6674797068657663
 
+  image/vnd.djvu:
+    length: 15
+    bytes: 41542654464F524D????????444A56
+
   # Audio
 
   audio/8svx:
@@ -285,6 +289,10 @@ mime_types:
   application/vnd.ms-cab-compressed:
     length: 4
     bytes: 4D534346
+
+  application/x-x509-user-cert:
+    length: 2
+    bytes: '3082'
 
   # ZIP based formats
 
